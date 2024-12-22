@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- 將顯示寬度設為螢幕寬度 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Titanic Passengers</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Titanic Passengers</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>PClass</th>
+                <th>Survived</th>
+                <th>Name</th>
+                <th>Sex</th>
+                <th>Age</th>
+                <th>SibSp</th>
+                <th>Parch</th>
+                <th>Ticket</th>
+                <th>Fare</th>
+                <th>Cabin</th>
+                <th>Embarked</th>
+                <th>Boat</th>
+                <th>Body</th>
+                <th>Home Destination</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in rows %}
+            <tr>
+                <td>{{ row.id }}</td>
+                <td>{{ row.pclass }}</td>
+                <td>{{ row.survived }}</td>
+                <td>{{ row.pname }}</td>
+                <td>{{ row.sex }}</td>
+                <td>{{ row.age }}</td>
+                <td>{{ row.sibsp }}</td>
+                <td>{{ row.parch }}</td>
+                <td>{{ row.ticket }}</td>
+                <td>{{ row.fare }}</td>
+                <td>{{ row.cabin }}</td>
+                <td>{{ row.embarked }}</td>
+                <td>{{ row.boat }}</td>
+                <td>{{ row.body }}</td>
+                <td>{{ row.homedest }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+
+</html>
