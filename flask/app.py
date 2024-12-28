@@ -6,10 +6,10 @@ app = Flask(__name__)
 
 # 連線設定
 config = {
-    'host': 'localhost',  
-    'user': 'root',       
-    'password': 'P@ssw0rd', 
-    'database': 'my_titanic',
+    'host': 'mysql',  
+    'user': 'user',       
+    'password': 'password', 
+    'database': 'mydatabase',
     'port': 3306
 }
 
@@ -46,5 +46,5 @@ def index():
         connection.close()
 
 if __name__ == '__main__':
-    app.run(debug=True)
-    # app.run(debug=True, host='0.0.0.0', port=5000)
+    #app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=5000)

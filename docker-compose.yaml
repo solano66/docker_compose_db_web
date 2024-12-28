@@ -1,0 +1,44 @@
+version: '3.8' # 指定 Docker Compose 的版本
+
+services:
+  mysql:
+    build:
+      context: ./MySQL # 指定 MySQL Dockerfile 的目錄
+      dockerfile: Dockerfile
+    container_name: mysql # 容器名稱
+    environment:
+      # 設定環境變數
+      MYSQL_ROOT_PASSWORD: rootpassword # root 密碼
+      MYSQL_DATABASE: mydatabase # 預設資料庫名稱
+      MYSQL_USER: user # 使用者名稱
+      MYSQL_PASSWORD: password # 使用者密碼
+    ports:
+      - "3306:3306" # MySQL 預設 port
+    volumes:
+      - ~/mysql_data:/var/lib/mysql-files # 使用 bind mount 儲存資料
+      - ./MySQL/my.csv:/var/lib/mysql-files/my.csv # 複製 csv 檔案，該目錄為 MySQL 默認允許的目錄
+      - ./MySQL/my.sql:/docker-entrypoint-initdb.d/my.sql # 複製 sql 檔案，該目錄為 MySQL 默認初始化資料庫的目錄
+
+  flask:
+    build:
+      context: ./flask # 指定 Flask Dockerfile 的目錄
+      dockerfile: Dockerfile
+    container_name: flask # 容器名稱
+    environment:
+      FLASK_ENV: development # 運行環境為開發模式
+    ports:
+      - "5000:5000" # Flask 預設 port
+    depends_on:
+      # 確保在 MySQL 啟動後才啟動
+      - mysql
+
+  nginx:
+    build:
+      context: ./nginx # 指定 Nginx Dockerfile 的目錄
+      dockerfile: Dockerfile
+    container_name: nginx # 容器名稱
+    ports:
+      - "80:80" # Nginx 預設 port
+    depends_on:
+      # 確保在 Flask 啟動後才啟動
+      - flask
