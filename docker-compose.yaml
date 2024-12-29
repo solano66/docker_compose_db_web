@@ -12,12 +12,13 @@ services:
       MYSQL_DATABASE: mydatabase # 預設資料庫名稱
       MYSQL_USER: user # 使用者名稱
       MYSQL_PASSWORD: password # 使用者密碼
-    ports:
-      - "3306:3306" # MySQL 預設 port
     volumes:
-      - ~/mysql_data:/var/lib/mysql-files # 使用 bind mount 儲存資料
+      - ~/mysql_data:/var/lib/mysql-files/ # 使用 bind mount 儲存資料
       - ./MySQL/my.csv:/var/lib/mysql-files/my.csv # 複製 csv 檔案，該目錄為 MySQL 默認允許的目錄
       - ./MySQL/my.sql:/docker-entrypoint-initdb.d/my.sql # 複製 sql 檔案，該目錄為 MySQL 默認初始化資料庫的目錄
+    networks:
+      # 不對外，確保只能被 flask 訪問
+      - backend
 
   flask:
     build:
@@ -26,11 +27,12 @@ services:
     container_name: flask # 容器名稱
     environment:
       FLASK_ENV: development # 運行環境為開發模式
-    ports:
-      - "5000:5000" # Flask 預設 port
     depends_on:
       # 確保在 MySQL 啟動後才啟動
       - mysql
+    networks:
+      # 不對外，確保只和 mysql、nginx 互通
+      - backend
 
   nginx:
     build:
@@ -42,3 +44,13 @@ services:
     depends_on:
       # 確保在 Flask 啟動後才啟動
       - flask
+    networks:
+      # 內外都能連
+      - frontend
+      - backend
+
+networks:
+  frontend:
+    driver: bridge
+  backend:
+    driver: bridge

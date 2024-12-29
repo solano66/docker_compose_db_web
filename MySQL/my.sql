@@ -1,7 +1,9 @@
-CREATE DATABASE IF NOT EXISTS mydatabase;
-USE mydatabase;
+-- 確保 database存在
+create database if not exists mydatabase;
+use mydatabase;
 
-CREATE TABLE IF NOT EXISTS full_passengers (
+-- 確保 table 存在
+CREATE TABLE IF NOT EXISTS full_passengers(
   id INT(11), 
   pclass DECIMAL(10, 2), 
   survived DECIMAL(10, 2), 
@@ -16,17 +18,16 @@ CREATE TABLE IF NOT EXISTS full_passengers (
   embarked VARCHAR(50),
   boat VARCHAR(50),
   body INT(11),
-  homedest VARCHAR(100)
-);
+  homedest varchar(100)
+ );
 
-LOAD DATA INFILE '/var/lib/mysql-files/my.csv'
+-- 讀取 csv ，/var/lib/mysql-files 為 MySQL 默認可讀取目錄
+LOAD DATA
+INFILE '/var/lib/mysql-files/my.csv'
 INTO TABLE full_passengers
-FIELDS TERMINATED BY ',' 
+FIELDS TERMINATED BY ','
 ENCLOSED BY '"'
-LINES TERMINATED BY '\n'
+LINES TERMINATED BY '\r\n'
 IGNORE 1 ROWS
 (id, pclass, survived, pname, sex, @age, sibsp, parch, ticket, @fare, cabin, embarked, boat, @body, homedest)
-SET 
-  age = NULLIF(@age, ''),
-  fare = NULLIF(@fare, ''),
-  body = NULLIF(@body, '');
+SET age = NULLIF(@age,''), fare = nullif(@fare, ''), body = nullif(@body, '');

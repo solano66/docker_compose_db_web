@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <!-- 將顯示寬度設為螢幕寬度 -->
+    <!-- 設置 viewport 以確保頁面在行動裝置上顯示正確，將顯示寬度設為螢幕寬度 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Titanic Passengers</title>
     <style>
@@ -48,6 +48,7 @@
             </tr>
         </thead>
         <tbody>
+            <!-- 動態生成表格內容 -->
             {% for row in rows %}
             <tr>
                 <td>{{ row.id }}</td>

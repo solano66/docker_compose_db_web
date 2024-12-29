@@ -4,7 +4,7 @@ from mysql.connector import Error
 
 app = Flask(__name__)
 
-# 連線設定
+# MySQL 連線設定
 config = {
     'host': 'mysql',  
     'user': 'user',       
@@ -32,6 +32,7 @@ def index():
         # return 給 HTML
         return render_template('index.html', rows=rows)
 
+        # 例外處理
     except Error as e:
         print(f"資料庫錯誤: {e}")
         return jsonify({"error": "資料庫錯誤", "details": str(e)})
@@ -46,5 +47,4 @@ def index():
         connection.close()
 
 if __name__ == '__main__':
-    #app.run(debug=True)
     app.run(debug=True, host='0.0.0.0', port=5000)
