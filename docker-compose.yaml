@@ -40,7 +40,7 @@ services:
       dockerfile: Dockerfile
     container_name: nginx # 容器名稱
     ports:
-      - "80:80" # Nginx 預設 port
+      - "80:80" # HTTP 預設 port
     depends_on:
       # 確保在 Flask 啟動後才啟動
       - flask
